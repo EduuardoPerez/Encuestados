@@ -13,12 +13,13 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   });
 };
 
-
 VistaAdministrador.prototype = {
   //lista
   inicializar: function() {
     //llamar a los metodos para reconstruir la lista, configurar botones y validar formularios
     validacionDeFormulario();
+    this.reconstruirLista();
+    this.configuracionDeBotones();
   },
 
   construirElementoPregunta: function(pregunta){
@@ -26,6 +27,12 @@ VistaAdministrador.prototype = {
     var nuevoItem;
     //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
+    nuevoItem = $('<li>', {
+      'class' : 'list-group-item',
+      'text' : pregunta.textoPregunta,
+      'id' : pregunta.id
+    });
+
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
@@ -55,7 +62,13 @@ VistaAdministrador.prototype = {
       var respuestas = [];
 
       $('[name="option[]"]').each(function() {
-        //completar
+        var respuesta = $(this).val();
+        if(respuesta.length>0){
+          respuestas.push({
+            'textoRespuesta': respuesta,
+            'cantidad': 0
+          });
+        }
       })
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
