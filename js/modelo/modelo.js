@@ -2,12 +2,15 @@
  * Modelo
  */
 var Modelo = function() {
-  this.preguntas = [];
+  this.preguntas = JSON.parse(localStorage.getItem('preguntas')) || [];
   this.ultimoId;
 
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
+  this.votoSumado = new Evento(this);
+  this.preguntaEditada = new Evento(this);
+  this.preguntasBorradas = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -49,5 +52,6 @@ Modelo.prototype = {
 
   //se guardan las preguntas
   guardar: function(){
+    localStorage.setItem('preguntas', JSON.stringify(this.preguntas));
   },
 };
