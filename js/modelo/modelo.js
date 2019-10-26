@@ -8,9 +8,9 @@ var Modelo = function() {
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
-  this.votoSumado = new Evento(this);
   this.preguntaEditada = new Evento(this);
   this.preguntasBorradas = new Evento(this);
+  this.votoSumado = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -48,6 +48,32 @@ Modelo.prototype = {
     this.preguntaEliminada.notificar();
     console.log(this.preguntas);
     
+  },
+
+  // Se edita una pregunta dado su ID
+  editarPregunta: function (id) {
+    let nuevoTextoPregunta = prompt('Editar pregunta');
+    this.preguntas = this.preguntas.filter((pregunta) => {
+      if(pregunta.id === id){
+        return pregunta.textoPregunta = nuevoTextoPregunta;
+      }
+      return pregunta;
+    });
+    this.guardar();
+    this.preguntaEditada.notificar();
+  },
+
+  // Elimina todas las preguntas
+  borrarTodasPreguntas : function () {
+    this.preguntas = [];
+    this.guardar();
+    this.preguntasBorradas.notificar();
+  },
+
+  // Suma un voto a una respuesta
+  sumarVoto: function () {
+    this.guardar();
+    this.votoSumado.notificar();
   },
 
   //se guardan las preguntas
