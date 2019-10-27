@@ -3,7 +3,7 @@
  */
 var Modelo = function() {
   this.preguntas = JSON.parse(localStorage.getItem('preguntas')) || [];
-  this.ultimoId;
+  this.ultimoId;  
 
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
@@ -36,7 +36,7 @@ Modelo.prototype = {
     var nuevaPregunta = {'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas};
     this.preguntas.push(nuevaPregunta);
     this.guardar();
-    this.preguntaAgregada.notificar();
+    this.preguntaAgregada.notificar();    
   },
 
   //se borra una pregunta dado su ID
@@ -71,7 +71,17 @@ Modelo.prototype = {
   },
 
   // Suma un voto a una respuesta
-  sumarVoto: function () {
+  agregarVoto: function (nombrePregunta,respuestaSeleccionada) {
+        
+    this.preguntas = this.preguntas.filter((pregunta) => {
+      if(pregunta.textoPregunta===nombrePregunta){
+        pregunta.cantidadPorRespuesta.map((respuesta) => {
+          if(respuesta.textoRespuesta===respuestaSeleccionada)
+          respuesta.cantidad++;
+        });        
+      }
+      return pregunta;
+    });
     this.guardar();
     this.votoSumado.notificar();
   },

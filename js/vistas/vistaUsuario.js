@@ -11,6 +11,21 @@ var VistaUsuario = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+  this.modelo.preguntaEliminada.suscribir(function() {
+    contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
+  });
+  this.modelo.preguntaEditada.suscribir(function() {
+    contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
+  });
+  this.modelo.preguntasBorradas.suscribir(function() {
+    contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
+  });
+  this.modelo.votoSumado.suscribir(function() {
+    contexto.reconstruirGrafico();
+  });
 };
 
 VistaUsuario.prototype = {
@@ -49,8 +64,13 @@ VistaUsuario.prototype = {
     var contexto = this;
     var preguntas = this.modelo.preguntas;
     preguntas.forEach(function(clave){
-      //completar
-      //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
+      //Agrega a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
+      const nuevoItem = $('<div>', {
+        'value' : clave.textoPregunta,
+        'text' : clave.textoPregunta,
+        'id' : clave.id
+      })
+      listaPreguntas.append(nuevoItem);
       var respuestas = clave.cantidadPorRespuesta;
       contexto.mostrarRespuestas(listaPreguntas,respuestas, clave);
     })
@@ -77,7 +97,7 @@ VistaUsuario.prototype = {
         var nombrePregunta = $(this).attr('value');
         var id = $(this).attr('id');
         var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
-        $('input[name=' + id + ']').prop('checked',false);
+        $('input[name=' + id + ']').prop('checked',false);        
         contexto.controlador.agregarVoto(nombrePregunta,respuestaSeleccionada);
       });
   },

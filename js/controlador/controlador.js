@@ -10,12 +10,19 @@ Controlador.prototype = {
       this.modelo.agregarPregunta(pregunta, respuestas);
   },
   borrarPregunta: (id) => {
-    this.modelo.borrarPregunta(id);
+    if(id){
+      this.modelo.borrarPregunta(id);
+    }
   },
   editarPregunta: (id) => {
-    this.modelo.editarPregunta(id);
+    if(id) {
+      this.modelo.editarPregunta(id);
+    }
   },
-  borrarTodasPreguntas: (id) => {
+  borrarTodasPreguntas: () => {
     this.modelo.borrarTodasPreguntas();
+  },
+  agregarVoto: (nombrePregunta,respuestaSeleccionada) => {
+    this.modelo.agregarVoto(nombrePregunta,respuestaSeleccionada);
   }
 };

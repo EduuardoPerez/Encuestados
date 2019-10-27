@@ -20,6 +20,9 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.modelo.preguntasBorradas.suscribir(function() {
     contexto.reconstruirLista();
   });
+  this.modelo.votoSumado.suscribir(function() {
+    contexto.reconstruirLista();
+  });
 };
 
 VistaAdministrador.prototype = {
@@ -34,7 +37,6 @@ VistaAdministrador.prototype = {
   construirElementoPregunta: function(pregunta){
     var contexto = this;
     var nuevoItem;
-    //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
     nuevoItem = $('<li>', {
       'class' : 'list-group-item',
